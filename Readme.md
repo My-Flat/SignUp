@@ -13,20 +13,43 @@ The data model is as follows:
   "id": "string",
   "username": "string",
   "email": "string",
-  "id_type": "string",
-  "id_number": "string", // For later verification if someone registered throught more than one method, then link the accounts
   "password_hash": "string",
-  "is_verified": "boolean",
-  "name": "string",
-  "surname": "string",
-  "phone": "string",
-  "address": "string",
-  "city": "string",
-  "zip": "string",
-  "country": "string",
   "createdAt": "string",
-  "updatedAt": "string"
+  "updatedAt": "string",
+  "verified_at": "string",
+  "is_verified": "boolean"
 }
 ```
 
-Later versions of the data model will include more fields, in order to handle auth providers and other features.
+Later versions of the data model will include more fields, in order to handle auth providers and other features. Also auth_providers will have its own collection.
+
+## Endpoints
+
+### POST /signup
+
+This endpoint is used to create a new user.
+
+#### Request Body
+
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+### Behavior
+
+1. The service will check if the email is already in use.
+2. If the email is not in use, the service will create a new user with the provided email and password, storing the password hash and the encrypted email.
+3. The service will generate a random username for the user that is not already in use.
+4. The service will return the username
+
+### Response
+
+```json
+{
+  "username": "string"
+}
+```
+
